@@ -7,7 +7,7 @@ import java.util.*;
 
 public class WordCloudMap {
 
-	private Map<String, Integer> map = new HashMap<String, Integer>();
+	private Map<String, Word> map = new HashMap<String, Word>();
 	
 	private StopWordMap stopWordMap = new StopWordMap();
 	
@@ -111,16 +111,20 @@ public class WordCloudMap {
 			put(word);
 	}
 	
-	private Integer put(String key) {
-		int value = 1;
+	private Word put(String key) {
+		
+		Word word;
+		
 		if (map.containsKey(key)){
-			value = map.get(key);
-			map.put(key, ++value);
+			word = map.get(key);
+			int value = word.getFrequency();
+			word.setFrequency(++value);
+			
 		} else {
-			map.put(key, value);
+			word = new Word(key);
 		}
 			
-		return value;
+		return map.put(key, word);
 	}
 
 	public static void main(String[] args) throws IOException {

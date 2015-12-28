@@ -7,6 +7,12 @@ public class Word {
 	
 	public Word(String _word){
 		word = _word;
+		frequency = 1;
+	}
+
+	@Override
+	public String toString() {
+		return "Word [word=" + word + ", frequency=" + frequency + "]";
 	}
 
 	public int getFrequency() {
