@@ -15,13 +15,16 @@ public class WordCloudMap {
 		stopWordMap.load(stopWordFile);
 	}
 	
-	public void populate(String urlOrFile) throws IOException{
+	public Word[] generate(String urlOrFile) throws IOException{
 		// detects if the url was passed
 		if (urlOrFile.substring(0,4).equals("http")){
 			populateFromUrl(urlOrFile);
 		} else{
 			populateFromFile(urlOrFile);
 		}
+		QuickSortWords qsort = new QuickSortWords(map);
+		
+		return qsort.getSortedArray();
 	}
 	
 	private void populateFromUrl(String urlName) throws IOException{
@@ -130,7 +133,7 @@ public class WordCloudMap {
 	public static void main(String[] args) throws IOException {
 		WordCloudMap wcm = new WordCloudMap("./stopwords.txt");
 		//wcm.populate("https://en.wikipedia.org/wiki/Tag_cloud");
-		wcm.populate("./assignment-description.txt");
-		System.out.println(wcm.map);
+		wcm.generate("./assignment-description.txt");
+		//System.out.println(wcm.map);
 	}
 }
