@@ -32,10 +32,7 @@ public class WordCloudMap {
 		
 		URL oracle = new URL(urlName);
         BufferedReader in = new BufferedReader(new InputStreamReader(oracle.openStream()));
-
-        String inputLine;
-        while ((inputLine = in.readLine()) != null)
-        	populateFromFile(inputLine);
+        insertIntoMap(in);
         in.close();
         
 	}
@@ -132,7 +129,7 @@ public class WordCloudMap {
 
 	public static void main(String[] args) throws IOException {
 		WordCloudMap wcm = new WordCloudMap("./stopwords.txt");
-		//wcm.populate("https://en.wikipedia.org/wiki/Tag_cloud");
+		//wcm.generate("https://en.wikipedia.org/wiki/Tag_cloud");
 		wcm.generate("./assignment-description.txt");
 		//System.out.println(wcm.map);
 	}
