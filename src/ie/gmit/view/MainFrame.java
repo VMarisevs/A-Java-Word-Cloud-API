@@ -14,6 +14,9 @@ import java.awt.event.ActionEvent;
 
 public class MainFrame extends JFrame{
 	
+	private AboutFrame aboutFrame = new AboutFrame();
+	private HowToFrame howToFrame = new HowToFrame();
+	
 	private StopWordMap swm = StopWordMap.getInstance();
 	private WordCloudMap wcm;
 	
@@ -69,11 +72,27 @@ public class MainFrame extends JFrame{
             		File file = fc.getSelectedFile();           		
             		try {
 						wcm = new WordCloudMap(swm);
+						
 						Word[] words = wcm.generate(txtFilePath.getText());
-
+						
+						/*
+						int maxWidth = 0;
+						int height = 100;
+						for (int i = 0; i < words.length; i++){
+							maxWidth = (maxWidth < words[i].getTextWidth()) ? words[i].getTextWidth() : maxWidth;
+							height += words[i].getFontSize();
+						}
+						*/
+						
 	            		DrawWordCloud dwc = new DrawWordCloud();
+	            		
+	            		String fileName = (file.getAbsolutePath().toLowerCase().contains(".png")) 
+	            				? file.getAbsolutePath().substring(0, file.getAbsolutePath().indexOf('.')) 
+	            						: file.getAbsolutePath();
+	            		
+	            		//dwc.drawWordCloudImage(words,maxWidth,height);
 	            		dwc.drawWordCloudImage(words,1000,5000);
-	            		dwc.save(file.getAbsolutePath());
+	            		dwc.save(fileName);
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -149,7 +168,22 @@ public class MainFrame extends JFrame{
 		menuBar.add(mnHelp);
 		
 		JMenuItem mntmAbout = new JMenuItem("About");
+		mntmAbout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				aboutFrame.setVisible(true);
+				aboutFrame.setAlwaysOnTop(true);
+			}
+		});
 		mnHelp.add(mntmAbout);
+		
+		JMenuItem mntmHowTo = new JMenuItem("How To");
+		mntmHowTo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				howToFrame.setVisible(true);
+				howToFrame.setAlwaysOnTop(true);
+			}
+		});
+		mnHelp.add(mntmHowTo);
 		
 		init();
 	}

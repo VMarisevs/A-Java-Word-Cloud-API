@@ -51,6 +51,7 @@ public class AboutFrame extends JFrame {
 		btnOK.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
+				setAlwaysOnTop(false);
 			}
 		});
 		btnOK.setBounds(220, 350, 100, 30);
@@ -59,12 +60,8 @@ public class AboutFrame extends JFrame {
 		init();
 	}
 	
-	public void setVisible(boolean bool){
-		this.setVisible(bool);
-	}
 	
 	private void init(){
-		this.setVisible(true);
 		this.setSize(600, 450);
 	}
 }

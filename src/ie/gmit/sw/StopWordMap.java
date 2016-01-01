@@ -27,7 +27,9 @@ public class StopWordMap {
 		String word;
 		
 		while ((word = bufferedReader.readLine()) != null) {
-			map.put(word,0);
+			// if we already have this word in map, ignore it
+			if (!map.containsKey(word))
+				map.put(word,0);
 	    }
 		
 		bufferedReader.close();
