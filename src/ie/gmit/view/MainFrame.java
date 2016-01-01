@@ -75,14 +75,14 @@ public class MainFrame extends JFrame{
 						
 						Word[] words = wcm.generate(txtFilePath.getText());
 						
-						/*
-						int maxWidth = 0;
+						
+						//int maxWidth = 0;
 						int height = 100;
 						for (int i = 0; i < words.length; i++){
-							maxWidth = (maxWidth < words[i].getTextWidth()) ? words[i].getTextWidth() : maxWidth;
+							//maxWidth = (maxWidth < words[i].getTextWidth()) ? words[i].getTextWidth() : maxWidth;
 							height += words[i].getFontSize();
 						}
-						*/
+						
 						
 	            		DrawWordCloud dwc = new DrawWordCloud();
 	            		
@@ -91,7 +91,7 @@ public class MainFrame extends JFrame{
 	            						: file.getAbsolutePath();
 	            		
 	            		//dwc.drawWordCloudImage(words,maxWidth,height);
-	            		dwc.drawWordCloudImage(words,1000,5000);
+	            		dwc.drawWordCloudImage(words,1000);
 	            		dwc.save(fileName);
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block

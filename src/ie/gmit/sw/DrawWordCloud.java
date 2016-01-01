@@ -9,9 +9,16 @@ import javax.imageio.ImageIO;
 
 public class DrawWordCloud {
 	private BufferedImage image;
-	Graphics graphics;
+	private Graphics graphics;
 		
-	public void drawWordCloudImage(Word[] words, int width, int height){
+	public void drawWordCloudImage(Word[] words, int width ){
+		
+		int height = 50;
+		
+		for (int i = 0; i < words.length; i++){
+			words[i].setFont(words[words.length-1].getFrequency());
+			height += words[i].getFontSize();
+		}
 		
 		// init new buffered image
 		image = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
@@ -23,9 +30,7 @@ public class DrawWordCloud {
 		
 		int y = 0;
 		
-		for (int i = 0; i < words.length; i++){
-			
-			words[i].setFont(words[words.length-1].getFrequency());
+		for (int i = 0; i < words.length; i++){			
 			
 			graphics.setColor(words[i].getColor());
 			graphics.setFont(words[i].getFont());
@@ -50,7 +55,7 @@ public class DrawWordCloud {
 		Word[] words = wcm.generate("./assignment-description.txt");
 		
 		DrawWordCloud dwc = new DrawWordCloud();
-		dwc.drawWordCloudImage(words,1000,5000);
+		dwc.drawWordCloudImage(words,1000);
 		dwc.save("image");
 	}
 }
