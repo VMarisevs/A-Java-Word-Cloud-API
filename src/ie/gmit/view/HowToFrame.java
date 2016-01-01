@@ -9,10 +9,13 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
+import java.awt.Window.Type;
 
 public class HowToFrame extends JFrame {
 
 	public HowToFrame() {
+		setType(Type.POPUP);
+		setResizable(false);
 		setTitle("How To");
 		getContentPane().setLayout(null);
 		

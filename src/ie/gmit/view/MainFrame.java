@@ -24,6 +24,7 @@ public class MainFrame extends JFrame{
 	private JTextField txtURL;
 	
 	public MainFrame() {
+		setResizable(false);
 		getContentPane().setLayout(null);
 		
 		JPanel pnGenerateFromFile = new JPanel();

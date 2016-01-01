@@ -5,9 +5,12 @@ import javax.swing.border.TitledBorder;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Window.Type;
 
 public class AboutFrame extends JFrame {
 	public AboutFrame() {
+		setResizable(false);
+		setType(Type.POPUP);
 		setTitle("About");
 		getContentPane().setLayout(null);
 		
