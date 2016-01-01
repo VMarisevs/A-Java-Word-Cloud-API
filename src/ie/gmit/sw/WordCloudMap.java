@@ -9,10 +9,10 @@ public class WordCloudMap {
 
 	private Map<String, Word> map = new HashMap<String, Word>();
 	
-	private StopWordMap stopWordMap = new StopWordMap();
+	private StopWordMap stopWordMap;
 	
-	public WordCloudMap(String stopWordFile) throws IOException{
-		stopWordMap.load(stopWordFile);
+	public WordCloudMap(StopWordMap stopWordFile) throws IOException{
+		this.stopWordMap = stopWordFile;
 	}
 	
 	public Word[] generate(String urlOrFile) throws IOException{
@@ -128,7 +128,9 @@ public class WordCloudMap {
 	}
 
 	public static void main(String[] args) throws IOException {
-		WordCloudMap wcm = new WordCloudMap("./stopwords.txt");
+		StopWordMap swm = StopWordMap.getInstance();
+		swm.load("./stopwords.txt");
+		WordCloudMap wcm = new WordCloudMap(swm);
 		//wcm.generate("https://en.wikipedia.org/wiki/Tag_cloud");
 		wcm.generate("./assignment-description.txt");
 		//System.out.println(wcm.map);

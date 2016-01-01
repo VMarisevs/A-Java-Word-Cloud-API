@@ -7,6 +7,19 @@ public class StopWordMap {
 	
 	private Map<String, Integer> map = new HashMap<String, Integer>();
 	
+	private static StopWordMap instance;
+	
+	private StopWordMap(){}
+	
+	public static StopWordMap getInstance(){
+		
+		if (instance == null){
+			instance = new StopWordMap();
+		}
+		
+		return instance;
+	}
+	
 	// populating map with words
 	public void load(String filename) throws IOException{
 		
@@ -41,6 +54,6 @@ public class StopWordMap {
 		swm.load("./stopwords.txt");
 		swm.display();
 		
-		System.out.println(swm.containsKey(new String("until")));;
+		System.out.println("\n" + swm.containsKey(new String("until")));;
 	}
 }

@@ -43,7 +43,10 @@ public class DrawWordCloud {
 	}
 	
 	public static void main(String[] args) throws IOException {
-		WordCloudMap wcm = new WordCloudMap("./stopwords.txt");
+		StopWordMap swm = StopWordMap.getInstance();
+		swm.load("./stopwords.txt");
+		WordCloudMap wcm = new WordCloudMap(swm);
+		
 		Word[] words = wcm.generate("./assignment-description.txt");
 		
 		DrawWordCloud dwc = new DrawWordCloud();

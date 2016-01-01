@@ -4,14 +4,22 @@ import javax.swing.*;
 
 import javax.swing.border.TitledBorder;
 
+import ie.gmit.sw.*;
+
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 
 public class MainFrame extends JFrame{
+	
+	private StopWordMap swm = StopWordMap.getInstance();
+	private WordCloudMap wcm;
+	
 	private JTextField txtFilePath;
 	private JTextField txtURL;
+	
 	public MainFrame() {
 		getContentPane().setLayout(null);
 		
@@ -46,6 +54,35 @@ public class MainFrame extends JFrame{
 		pnGenerateFromFile.add(btnBrowse);
 		
 		JButton btnGenerateFile = new JButton("Generate");
+		btnGenerateFile.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setCursor(new Cursor(Cursor.WAIT_CURSOR));
+            	JFileChooser fc = new JFileChooser("./");
+            	
+            	int returnVal = fc.showSaveDialog(MainFrame.this);
+            	setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+
+            	if (returnVal == JFileChooser.APPROVE_OPTION) {
+            		/*
+            		 * Generate and save file
+            		 */
+            		File file = fc.getSelectedFile();           		
+            		try {
+						wcm = new WordCloudMap(swm);
+						Word[] words = wcm.generate(txtFilePath.getText());
+
+	            		DrawWordCloud dwc = new DrawWordCloud();
+	            		dwc.drawWordCloudImage(words,1000,5000);
+	            		dwc.save(file.getAbsolutePath());
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+
+            		
+            	}
+			}
+		});
 		btnGenerateFile.setBounds(90, 75, 100, 25);
 		pnGenerateFromFile.add(btnGenerateFile);
 		
@@ -72,12 +109,40 @@ public class MainFrame extends JFrame{
 		menuBar.add(mnFile);
 		
 		JMenuItem mntmLoad = new JMenuItem("Load");
+		mntmLoad.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setCursor(new Cursor(Cursor.WAIT_CURSOR));
+            	JFileChooser fc = new JFileChooser("./");
+            	
+            	int returnVal = fc.showOpenDialog(MainFrame.this);
+            	setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+
+            	if (returnVal == JFileChooser.APPROVE_OPTION) {
+            		/*
+            		 * Loading stop words into map
+            		 */
+            		File file = fc.getSelectedFile();
+            		
+            		try {
+						swm.load(file.getAbsolutePath());
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+            	}
+			}
+		});
 		mnFile.add(mntmLoad);
 		
 		JSeparator separator = new JSeparator();
 		mnFile.add(separator);
 		
 		JMenuItem mntmExit = new JMenuItem("Exit");
+		mntmExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
 		mnFile.add(mntmExit);
 		
 		JMenu mnHelp = new JMenu("Help");
@@ -90,7 +155,7 @@ public class MainFrame extends JFrame{
 	}
 
 	
-	public void init(){
+	private void init(){
 		this.setVisible(true);
 		this.setSize(800, 320);
 	}
