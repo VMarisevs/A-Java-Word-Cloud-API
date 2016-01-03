@@ -11,6 +11,8 @@ public class WordCloudMap {
 	
 	private StopWordMap stopWordMap;
 	
+	private BufferedReaderParser bufferedReaderParser;
+	
 	public WordCloudMap(StopWordMap stopWordFile) throws IOException{
 		this.stopWordMap = stopWordFile;
 	}
@@ -32,7 +34,10 @@ public class WordCloudMap {
 		
 		URL oracle = new URL(urlName);
         BufferedReader in = new BufferedReader(new InputStreamReader(oracle.openStream()));
-        insertIntoMap(in);
+        
+        bufferedReaderParser = new BufferedReaderUrlParser();
+        bufferedReaderParser.parse(in, this);
+        //insertIntoMap(in);
         in.close();
         
 	}
@@ -40,68 +45,13 @@ public class WordCloudMap {
 	private void populateFromFile(String fileName) throws IOException{
 		
 		BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(fileName)));
-		insertIntoMap(in);
+		//insertIntoMap(in);
+		bufferedReaderParser = new BufferedReaderFileParser();
+		bufferedReaderParser.parse(in, this);
 		in.close();
 	}
 	
-	private void insertIntoMap(BufferedReader in) throws IOException{
-		
-		StringBuilder word = new StringBuilder();
-		
-		int intChar;
-		while ((intChar = in.read()) != -1){
-			char nextChar = (char)intChar;
-			
-			/*
-			 * If current char is in the range of A-Z or a-z we adding it to the word
-			 * In case current char is _ or - or number, we are checking
-			 * if new word is more than 0 chars long.
-			 * Only in that case number or - _ are part of the word
-			 */
-			
-			if ((nextChar >= 'A' && nextChar <= 'Z')
-				||	
-				(nextChar >= 'a' && nextChar <= 'z')
-				|| (
-						(nextChar == '_' 
-							|| nextChar == '-'
-								|| nextChar == '\''
-									|| (nextChar >= '0') && (nextChar <= '9')
-									) && (word.length() > 0))
-				){
-				// append char to new word
-				word.append(nextChar);
-				
-			} 
-				/*
-				 * Checking for special character to identify if the word is finished
-				 * new line, spaces and other special characters including numbers
-				 */
-			else if ((intChar == 10) // new line
-					||
-					((intChar >= 32) // between space (ascii #32) and @ char (ascii #64)
-							&& (intChar <= 64))
-					||
-					((intChar >= 91)
-							&& (intChar <= 94)) // between '[' and '^'
-					||
-					(intChar == 96) // '`'
-					||
-					((intChar >= 123) 
-							&& (intChar <= 126)) // '{' '|' '}' '~' 
-					){
-				// word is finished
-				if (word.length() > 0){
-					// inserting into map
-					validateWord(word.toString());
-					// removing previous word
-					word.setLength(0);
-				}
-			}
-		}
-	}
-	
-	private void validateWord(String word){
+	public void validateWord(String word){
 		/*
 		 * Assume that stop words would be always lower case.
 		 * In this case validation would be case insensitive,

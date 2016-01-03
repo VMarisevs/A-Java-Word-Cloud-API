@@ -60,47 +60,7 @@ public class MainFrame extends JFrame{
 		JButton btnGenerateFile = new JButton("Generate");
 		btnGenerateFile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				setCursor(new Cursor(Cursor.WAIT_CURSOR));
-            	JFileChooser fc = new JFileChooser("./");
-            	
-            	int returnVal = fc.showSaveDialog(MainFrame.this);
-            	setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-
-            	if (returnVal == JFileChooser.APPROVE_OPTION) {
-            		/*
-            		 * Generate and save file
-            		 */
-            		File file = fc.getSelectedFile();           		
-            		try {
-						wcm = new WordCloudMap(swm);
-						
-						Word[] words = wcm.generate(txtFilePath.getText());
-						
-						
-						//int maxWidth = 0;
-						int height = 100;
-						for (int i = 0; i < words.length; i++){
-							//maxWidth = (maxWidth < words[i].getTextWidth()) ? words[i].getTextWidth() : maxWidth;
-							height += words[i].getFontSize();
-						}
-						
-						
-	            		DrawWordCloud dwc = new DrawWordCloud();
-	            		
-	            		String fileName = (file.getAbsolutePath().toLowerCase().contains(".png")) 
-	            				? file.getAbsolutePath().substring(0, file.getAbsolutePath().indexOf('.')) 
-	            						: file.getAbsolutePath();
-	            		
-	            		//dwc.drawWordCloudImage(words,maxWidth,height);
-	            		dwc.drawWordCloudImage(words,1000);
-	            		dwc.save(fileName);
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-
-            		
-            	}
+				generateFileUrl(true);
 			}
 		});
 		btnGenerateFile.setBounds(90, 75, 100, 25);
@@ -113,12 +73,17 @@ public class MainFrame extends JFrame{
 		pnGenerateFromWeb.setLayout(null);
 		
 		txtURL = new JTextField();
-		txtURL.setText("https://www.google.com");
+		txtURL.setText("https://en.wikipedia.org/wiki/Tag_cloud");
 		txtURL.setBounds(12, 40, 327, 22);
 		pnGenerateFromWeb.add(txtURL);
 		txtURL.setColumns(10);
 		
 		JButton btnGenerateURL = new JButton("Generate");
+		btnGenerateURL.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				generateFileUrl(false);
+			}
+		});
 		btnGenerateURL.setBounds(89, 75, 100, 25);
 		pnGenerateFromWeb.add(btnGenerateURL);
 		
@@ -193,6 +158,52 @@ public class MainFrame extends JFrame{
 	private void init(){
 		this.setVisible(true);
 		this.setSize(800, 320);
+	}
+	
+	private void generateFileUrl(boolean var){
+
+		setCursor(new Cursor(Cursor.WAIT_CURSOR));
+    	JFileChooser fc = new JFileChooser("./");
+    	
+    	int returnVal = fc.showSaveDialog(MainFrame.this);
+    	setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+
+    	if (returnVal == JFileChooser.APPROVE_OPTION) {
+    		/*
+    		 * Generate and save file
+    		 */
+    		File file = fc.getSelectedFile();           		
+    		try {
+				wcm = new WordCloudMap(swm);
+				
+				Word[] words = (var) ? wcm.generate(txtFilePath.getText()) : wcm.generate(txtURL.getText());
+				
+				
+				//int maxWidth = 0;
+				int height = 100;
+				for (int i = 0; i < words.length; i++){
+					//maxWidth = (maxWidth < words[i].getTextWidth()) ? words[i].getTextWidth() : maxWidth;
+					height += words[i].getFontSize();
+				}
+				
+				
+        		DrawWordCloud dwc = new DrawWordCloud();
+        		
+        		String fileName = (file.getAbsolutePath().toLowerCase().contains(".png")) 
+        				? file.getAbsolutePath().substring(0, file.getAbsolutePath().indexOf('.')) 
+        						: file.getAbsolutePath();
+        		
+        		//dwc.drawWordCloudImage(words,maxWidth,height);
+        		dwc.drawWordCloudImage(words,1000);
+        		dwc.save(fileName);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
+    		
+    	}
+	
 	}
 	public static void main(String[] args) {
 		new MainFrame().setVisible(true);
