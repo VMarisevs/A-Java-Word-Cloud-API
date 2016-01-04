@@ -66,22 +66,4 @@ public class BufferedReaderUrlParser implements BufferedReaderParser {
 		}
 		
 	}
-
-	
-	public static void main(String[] args) throws IOException {
-		/*
-		StopWordMap swm = StopWordMap.getInstance();
-		swm.load("./stopwords.txt");
-		WordCloudMap wcm = new WordCloudMap(swm);
-		wcm.generate("https://en.wikipedia.org/wiki/Tag_cloud");
-		//wcm.generate("./assignment-description.txt");
-		*/
-		URL oracle = new URL("https://en.wikipedia.org/wiki/Tag_cloud");
-        BufferedReader in = new BufferedReader(new InputStreamReader(oracle.openStream()));
-        
-        BufferedReaderParser bufferedReaderParser = new BufferedReaderUrlParser();
-        bufferedReaderParser.parse(in, new WordCloudMap(StopWordMap.getInstance()));
-        //insertIntoMap(in);
-        in.close();
-	}
 }

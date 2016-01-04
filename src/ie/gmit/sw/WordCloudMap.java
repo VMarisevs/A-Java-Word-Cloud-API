@@ -25,19 +25,22 @@ public class WordCloudMap {
 			populateFromFile(urlOrFile);
 		}
 		QuickSortWords qsort = new QuickSortWords(map);
-		
+		/*
+		 * Returning sorted array
+		 */
 		return qsort.getSortedArray();
 	}
 	
 	private void populateFromUrl(String urlName) throws IOException{
 		
 		
-		URL oracle = new URL(urlName);
-        BufferedReader in = new BufferedReader(new InputStreamReader(oracle.openStream()));
-        
+		URL url = new URL(urlName);
+        BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));        
         bufferedReaderParser = new BufferedReaderUrlParser();
+        /*
+		 * Let parser do the job
+		 */
         bufferedReaderParser.parse(in, this);
-        //insertIntoMap(in);
         in.close();
         
 	}
@@ -45,8 +48,10 @@ public class WordCloudMap {
 	private void populateFromFile(String fileName) throws IOException{
 		
 		BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(fileName)));
-		//insertIntoMap(in);
 		bufferedReaderParser = new BufferedReaderFileParser();
+		/*
+		 * Let parser do the job
+		 */
 		bufferedReaderParser.parse(in, this);
 		in.close();
 	}
@@ -77,12 +82,4 @@ public class WordCloudMap {
 		return map.put(key, word);
 	}
 
-	public static void main(String[] args) throws IOException {
-		StopWordMap swm = StopWordMap.getInstance();
-		swm.load("./stopwords.txt");
-		WordCloudMap wcm = new WordCloudMap(swm);
-		//wcm.generate("https://en.wikipedia.org/wiki/Tag_cloud");
-		wcm.generate("./assignment-description.txt");
-		//System.out.println(wcm.map);
-	}
 }

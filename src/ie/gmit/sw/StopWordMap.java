@@ -49,13 +49,4 @@ public class StopWordMap {
 			System.out.println(word.getKey() + " " + word.getValue());
 		}
 	}
-	
-	
-	public static void main(String[] args) throws IOException {
-		StopWordMap swm = new StopWordMap();
-		swm.load("./stopwords.txt");
-		swm.display();
-		
-		System.out.println("\n" + swm.containsKey(new String("until")));;
-	}
 }

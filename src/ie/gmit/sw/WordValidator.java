@@ -58,11 +58,11 @@ public class WordValidator {
 				){
 			// word is finished
 			if (word.length() > 0){
+				/*
+				 * valid word, can be inserted into map
+				 */
 				return true;
-				// inserting into map
-				//wcm.validateWord(word.toString());
-				// removing previous word
-				//word.setLength(0);
+				
 			}
 		}
 		
