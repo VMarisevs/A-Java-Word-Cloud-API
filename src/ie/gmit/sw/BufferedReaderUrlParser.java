@@ -68,10 +68,6 @@ public class BufferedReaderUrlParser implements BufferedReaderParser {
 	}
 
 	
-	private void validateWord(char nextChar){
-		
-	}
-	
 	public static void main(String[] args) throws IOException {
 		/*
 		StopWordMap swm = StopWordMap.getInstance();

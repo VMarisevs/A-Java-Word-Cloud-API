@@ -7,13 +7,15 @@ import javax.swing.border.TitledBorder;
 import ie.gmit.sw.*;
 
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
-import java.awt.event.ActionEvent;
+import java.awt.event.*;
+import java.io.*;
 
 public class MainFrame extends JFrame{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private AboutFrame aboutFrame = new AboutFrame();
 	private HowToFrame howToFrame = new HowToFrame();
 	
@@ -176,16 +178,7 @@ public class MainFrame extends JFrame{
     		try {
 				wcm = new WordCloudMap(swm);
 				
-				Word[] words = (var) ? wcm.generate(txtFilePath.getText()) : wcm.generate(txtURL.getText());
-				
-				
-				//int maxWidth = 0;
-				int height = 100;
-				for (int i = 0; i < words.length; i++){
-					//maxWidth = (maxWidth < words[i].getTextWidth()) ? words[i].getTextWidth() : maxWidth;
-					height += words[i].getFontSize();
-				}
-				
+				Word[] words = (var) ? wcm.generate(txtFilePath.getText()) : wcm.generate(txtURL.getText());				
 				
         		DrawWordCloud dwc = new DrawWordCloud();
         		
@@ -193,7 +186,6 @@ public class MainFrame extends JFrame{
         				? file.getAbsolutePath().substring(0, file.getAbsolutePath().indexOf('.')) 
         						: file.getAbsolutePath();
         		
-        		//dwc.drawWordCloudImage(words,maxWidth,height);
         		dwc.drawWordCloudImage(words,1000);
         		dwc.save(fileName);
 			} catch (IOException e1) {

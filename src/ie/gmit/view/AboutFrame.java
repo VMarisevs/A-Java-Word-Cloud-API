@@ -3,11 +3,15 @@ package ie.gmit.view;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.Font;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.Window.Type;
+import java.awt.event.*;
 
 public class AboutFrame extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
 	public AboutFrame() {
 		setResizable(false);
 		setType(Type.POPUP);
