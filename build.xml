@@ -33,7 +33,7 @@
 		<property name="junit.filename" value="./junit-4.12.jar"/>
 	
 		<!-- list of helper files that goes into submission project -->
-		<property name="default.files.list" value="build.xml, Readme.md, design.png, stopwords.txt, assignment-description.txt"/>
+		<property name="default.files.list" value="build.xml, ReadMe.md, design.png, stopwords.txt, assignment-description.txt"/>
 	
 	<!-- set of default directories -->
 	<property name="srcDir" value="./src/"/>
