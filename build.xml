@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ===================================================================================
+     GALWAY-MAYO INSTITUTE OF TECHNOLOGY 
+     
+     Copyright 2015. 		Vladislavs Marisevs
+     						B.Sc. (Hons) in Software Development
+							G00305490@gmit.ie
+     						Advanced Object-Oriented Design Principles & Patterns 
+     						
+     						A Java Word Cloud API
+	 
+     =================================================================================== -->
+<project name="aoodpp" default="deploy">
+    <description>
+		B.Sc. Software Development – Advanced Object-Oriented Design Principles and Patterns (2015)  
+        2015 Assignment - A Java Word Cloud API
+    </description>
+	
+	<!-- Declare global properties (name/value pairs) for this build -->
+
+	<property name="student" value="G00305490"/>
+	<property name="student.name" value="Vladislavs Marisevs"/>
+	<property name="org.name" value="Galway-Mayo Institute of Technology"/>
+	<property name="app.name" value="Word Cloud API"/>
+	<property name="app.version" value="1.0"/>
+	<property name="app.version.name" value="Hera"/>
+	
+	<property name="jre.target" value="1.8"/>
+	
+	<!-- build.xml script settings -->
+		<!-- this variable defines JUnit Test .jar file that ant need to compile tests -->
+		<property name="junit.url" value="http://search.maven.org/remotecontent?filepath=junit/junit/4.12/junit-4.12.jar"/>
+		<property name="junit.filename" value="./junit-4.12.jar"/>
+	
+		<!-- list of helper files that goes into submission project -->
+		<property name="default.files.list" value="build.xml, Readme.md, design.png, stopwords.txt, assignment-description.txt"/>
+	
+	<!-- set of default directories -->
+	<property name="srcDir" value="./src/"/>
+	<property name="distDir" value="./dist"/>
+	<property name="docDir" value="${distDir}/docs"/>
+
+	
+	
+	<path id="classpath">
+		<pathelement location="${junit.filename}" />
+  	</path>
+  	
+	
+	<echo>
+	    ------------------------------------------
+		Application: ${app.name} ${app.version}
+		StudentId  : ${student}
+		Developer  : ${student.name}
+		User       : ${user.name}
+	    Build File : ${ant.file} 
+	    Run Date   : ${build.time}
+	    Run by     : ${user.name}
+	    Base Dir   : ${basedir}
+	    Java Home  : ${java.home}
+	    ------------------------------------------
+  	</echo>
+	
+	
+	<!-- Delete any previously created directories and files -->
+    <target name="clean">
+    	<delete dir="${docDir}" failonerror="false"/>
+    	<delete failonerror="false"> 
+    	    <fileset dir="${distDir}" includes="**/*"/> 
+    	</delete> 
+    </target>
+	
+	<!-- Initialisation task -->
+    <target name="init" depends="clean">
+		
+		<tstamp/>
+    	<mkdir dir="${distDir}"/>
+		
+		<!-- downloading *.jar files to compile this project -->
+		<get src="${junit.url}" dest="${junit.filename}"/>
+	</target>	
+
+    
+	<!-- Compile source code -->
+	<target name="compile" depends="init">
+		<javac includeantruntime="false" target="${jre.target}" source="${jre.target}" srcdir="${srcDir}" destdir="${distDir}" >
+			<classpath refid="classpath"/>
+		</javac>
+	</target>
+
+
+	<!-- Create Java application archive (Jar) -->
+	<target name="archive" depends="compile">
+        <jar destfile="${distDir}/wordcloud.jar" basedir="${distDir}" excludes="**/*Test.class, **/Compact*.class">         
+        	 <manifest>
+        	 	<attribute name="Main-Class" value="ie.gmit.sw.Runner"/>
+				<attribute name="Built-By" value="${student.name}"/>
+				<attribute name="Implementation-Vendor" value="${org.name}"/>
+				<attribute name="Implementation-Title" value="${app.name}"/>
+				<attribute name="Implementation-Version" value="${app.version}"/>
+			</manifest>
+        </jar>
+    </target>
+
+	
+	<!-- Generate JavaDocs -->
+    <target name="docs" depends="archive">
+        <javadoc sourcepath="${srcDir}" destdir="${docDir}" author="true" version="true" use="true" windowtitle="A Java Word Cloud API" >
+            <doctitle><![CDATA[<h1>A Java Word Cloud API</h1>]]></doctitle>
+            <bottom><![CDATA[<i>Copyright &#169; 2015</i>]]></bottom>
+        	<classpath refid="classpath"/>
+        </javadoc>
+    </target>
+	
+    
+	<!-- Compress classes and documentation into Zip and compressed tarball -->
+	<target name="deploy" depends="docs">
+		
+		<copy todir="${distDir}">
+			<fileset dir="." includes="${default.files.list}"/>			
+		</copy>	
+		
+		<copy todir="${distDir}/${srcDir}">
+		    <fileset dir="${srcDir}"/>			
+		</copy>
+		
+		<tar destfile="${distDir}/${student}.tar.gz" 
+			basedir="${distDir}" includes="**/*" excludes="ie/** , **/*.zip, **/*.tar.gz" compression="gzip"/> 
+		
+		<zip destfile="${distDir}/${student}.zip" 
+			basedir="${distDir}" includes="**/*" excludes="ie/** , **/*.zip, **/*.tar.gz"/>
+    </target>
+</project>
