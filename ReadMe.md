@@ -1,7 +1,7 @@
 # Advanced Object-Oriented Design Principles & Patterns
 # Main Assignment 2015
 # A Java Word Cloud API
-## [GitHub](https://github.com/VMarisevs/A-Java-Word-Cloud-API)
+## [GitHub](https://github.com/VMarisevs/A-Java-Word-Cloud-API) will be available after submission date
 
 # Overview
 Word-clouds are a mechanism for creating a visual representation of text and are used to
